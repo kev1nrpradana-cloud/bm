@@ -111,21 +111,22 @@
 </head>
 <body>
 
-   <audio id="backgroundMusic" src="PandanganPertama.mp3" loop></audio>
-    <div class="container">
-    <h1>SAYANGGGG!!! (baca pake nada) 😔➡️😊</h1>
-    <p>Jangan badmood lagi yaaaa ututututu! Aku buat ini spesial buat kamu. klik atu2 yaa</p>
-    
-    <div class="button-group">
-        <button id="btn-love" onclick="showMessage('love')">apakah aku sayang kamu?</button>
-        <button id="btn-gif" onclick="showMessage('gif')" disabled>mo ketawa tak? click gc</button>
-        <button id="btn-compliment" onclick="showMessage('compliment')" disabled>pesan tipis2</button>
-    </div>
+    <audio id="backgroundMusic" src="PandanganPertama.mp3" loop></audio>
 
-    <div id="messageBox" class="message-box">
-        Klik tombol pertama untuk memulai kejutan!
+    <div class="container">
+        <h1>SAYANGGGG!!! (baca pake nada) 😔➡️😊</h1>
+        <p>Jangan badmood lagi yaaaa ututututu! Aku buat ini spesial buat kamu. klik atu2 yaa</p>
+        
+        <div class="button-group">
+            <button id="btn-love" onclick="showMessage('love')">apakah aku sayang kamu?</button>
+            <button id="btn-gif" onclick="showMessage('gif')" disabled>mo ketawa tak? click gc</button>
+            <button id="btn-compliment" onclick="showMessage('compliment')" disabled>pesan tipis2</button>
+        </div>
+
+        <div id="messageBox" class="message-box">
+            Musik sudah dimulai! Klik tombol pertama untuk memulai kejutan!
+        </div>
     </div>
-</div>
 
 <script>
     // --- Data Konten ---
@@ -158,14 +159,21 @@
     const audio = document.getElementById('backgroundMusic');
     let isMusicPlayed = false;
 
-    // FUNGSI: MEMUTAR MUSIK DENGAN INTERAKSI PENGGUNA
+    // FUNGSI: MEMUTAR MUSIK
     function playMusic() {
         if (!isMusicPlayed && audio) {
             audio.play().catch(error => {
-                console.log("Audio play failed, browser restrictions.", error);
+                console.log("Audio play failed.", error);
             });
             isMusicPlayed = true; 
         }
+    }
+    
+    // *** LOGIKA AUTOPLAY SAAT DATANG DARI START.HTML ***
+    // Cek apakah URL memiliki parameter '?play=1'
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('play') === '1') {
+        playMusic(); // Langsung mainkan musik karena sudah ada interaksi di halaman sebelumnya
     }
 
     function showMessage(type) {
@@ -178,8 +186,7 @@
 
         // Logika Konten
         if (type === 'love') {
-            // *** PENTING: PANGGIL FUNGSI INI DI KLIK PERTAMA ***
-            playMusic();
+            // Musik sudah diputar di awal (via playMusic() di page load)
             
             const randomIndex = Math.floor(Math.random() * loveMessages.length);
             const selectedMessage = loveMessages[randomIndex];
@@ -240,7 +247,7 @@
         }, 200); 
     }
 
-    // Fungsi untuk mengontrol slider GIF
+    // Fungsi untuk mengontrol slider GIF (Sama)
     function changeGif(direction) {
         const totalGifs = gifUrls.length;
         const newIndex = currentGifIndex + direction;
@@ -256,7 +263,7 @@
         }
     }
 
-    // Fungsi bantu untuk mengupdate status tombol slider
+    // Fungsi bantu untuk mengupdate status tombol slider (Sama)
     function updateSliderButtons() {
         const totalGifs = gifUrls.length;
         const prevBtn = document.getElementById('prevBtn');
