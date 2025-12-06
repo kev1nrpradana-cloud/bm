@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kode Spesial untuk Si Manis Blue 💙</title>
+    <style>
+        /* --- Tema Biru & Desain Dipercantik --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e3f2fd;
+            color: #0d47a1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 20px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+            max-width: 90%;
+            width: 550px;
+            border-top: 5px solid #42a5f5;
+        }
+
+        h1 {
+            color: #1976d2;
+            margin-bottom: 15px;
+            font-size: 2em;
+        }
+
+        p {
+            margin-bottom: 25px;
+            color: #424242;
+        }
+
+        .message-box {
+            min-height: 150px;
+            margin-top: 25px;
+            padding: 20px;
+            border: 2px solid #90caf9;
+            border-radius: 15px;
+            font-size: 1.1em;
+            font-style: italic;
+            background-color: #f1f8e9;
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out; 
+            text-align: center; 
+            line-height: 1.5;
+        }
+
+        button {
+            background-color: #42a5f5;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            margin: 8px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.05em;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.1s, opacity 0.3s;
+        }
+
+        button:hover:not(:disabled) {
+            background-color: #1e88e5;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        button:disabled {
+            background-color: #bbdefb;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        /* Style untuk GIF Slider */
+        .gif-slider {
+            position: relative;
+            margin: 15px auto; 
+            text-align: center; 
+        }
+
+        .gif-image {
+            max-width: 90%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: none;
+            margin: 0 auto; 
+        }
+        .gif-image.active {
+            display: block;
+        }
+
+        .slider-controls {
+            margin-top: 10px;
+        }
+
+        .slider-controls button {
+            background-color: #0d47a1;
+            padding: 5px 10px;
+            font-size: 0.9em;
+        }
+        
+        /* --- STYLE BARU: SPLASH SCREEN --- */
+        #splashScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #e3f2fd; /* Warna latar belakang sama seperti body */
+            z-index: 1000; /* Pastikan di atas semua konten */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease-out;
+        }
+
+        #splashScreen h1 {
+            color: #1976d2;
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        #splashScreen button {
+            background-color: #1e88e5;
+            padding: 20px 60px;
+            font-size: 1.5em;
+        }
+
+    </style>
+</head>
+<body>
+
+    <audio id="backgroundMusic" src="PandanganPertama.mp3" loop></audio>
+    
+    <div id="splashScreen">
+        <h1>Kejutan Khusus untuk Si Manis! 💙</h1>
+        <p>Musik akan dimulai saat Anda menekan tombol di bawah.</p>
+        <button onclick="startWebsite()">M U L A I</button>
+    </div>
+    <div class="container">
+        <h1>SAYANGGGG!!! (baca pake nada) 😔➡️😊</h1>
+        <p>Jangan badmood lagi yaaaa ututututu! Aku buat ini spesial buat kamu. klik atu2 yaa</p>
+        
+        <div class="button-group">
+            <button id="btn-love" onclick="showMessage('love')">apakah aku sayang kamu?</button>
+            <button id="btn-gif" onclick="showMessage('gif')" disabled>mo ketawa tak? click gc</button>
+            <button id="btn-compliment" onclick="showMessage('compliment')" disabled>pesan tipis2</button>
+        </div>
+
+        <div id="messageBox" class="message-box">
+            Musik sudah dimulai! Klik tombol pertama untuk memulai kejutan!
+        </div>
+    </div>
+
+<script>
+    // --- Data Konten ---
+    const loveMessages = [
+       "ya sayang lah!!!!!!, namanya jg pacar gua yang paling hot dan fineshyt ini🥵🥵🥵!!!!!!"
+    ];
+
+    const gifUrls = [
+        "https://media1.tenor.com/m/0Q5IZ6e9pC8AAAAd/cat-cute-cat.gif",
+        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOGNjMmZkMjV4bnV1OWxmZTAwbHY5a3owbnZkaWJkejA5OTFmczJvcSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/7AzEXdIb1wyCTWJntb/giphy.gif",
+        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnVkNW9mdGR2emR3NWdkcWFtM2lpMm04NzlvY2ZmcnhkcXNlY3BwbCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/GAXXHdS0zXawVLOJLY/giphy.gif",
+        "https://media1.tenor.com/m/vAgsTXTjgM4AAAAd/nuggetand-cat.gif",
+        "https://media1.tenor.com/m/y6LthaDam3gAAAAd/sped-up-kiss-cute-cat-kitten-gif-6454201794369349769-cat.gif",
+        "https://media1.tenor.com/m/iMcsJK3CkQgAAAAd/huh-huh-cat.gif"
+    ];
+
+    const compliments = [
+       "setiap kita ada masalah kita harus selesain dengan terbuka dan cepat, aku harap kamu sama aku bisa ngelakuin itu terus, terutama sama kamu kalo di tanya tuh jawab huh, yauda aku bingung mau buat apalagi ini aja, love u cantiku manisku😘😘"
+    ];
+
+    // --- Kontrol Urutan & Slider ---
+    let currentStep = 1;
+    let currentGifIndex = 0;
+    
+    const messageBox = document.getElementById('messageBox');
+    const btnLove = document.getElementById('btn-love');
+    const btnGif = document.getElementById('btn-gif');
+    const btnCompliment = document.getElementById('btn-compliment');
+    const splashScreen = document.getElementById('splashScreen');
+
+    const audio = document.getElementById('backgroundMusic');
+    let isMusicPlayed = false;
+
+    // FUNGSI: MEMUTAR MUSIK
+    function playMusic() {
+        if (!isMusicPlayed && audio) {
+            audio.play().catch(error => {
+                console.log("Audio play failed.", error);
+            });
+            isMusicPlayed = true; 
+        }
+    }
+    
+    // *** FUNGSI BARU: MENGHILANGKAN SPLASH SCREEN DAN MEMUTAR MUSIK ***
+    function startWebsite() {
+        // 1. Mulai Putar Musik (Diizinkan karena ada interaksi klik)
+        playMusic();
+        
+        // 2. Transisikan Splash Screen menjadi tak terlihat
+        splashScreen.style.opacity = 0;
+        
+        // 3. Setelah transisi selesai, hilangkan splash screen
+        setTimeout(() => {
+            splashScreen.style.display = 'none';
+        }, 500); 
+    }
+
+    function showMessage(type) {
+        let content;
+        
+        // Cek Urutan Klik 
+        if (type === 'love' && currentStep !== 1) return;
+        if (type === 'gif' && currentStep !== 2) return;
+        if (type === 'compliment' && currentStep !== 3) return;
+
+        // Logika Konten
+        if (type === 'love') {
+            // Musik sudah diputar oleh fungsi startWebsite()
+            
+            const randomIndex = Math.floor(Math.random() * loveMessages.length);
+            const selectedMessage = loveMessages[randomIndex];
+            content = "<h2>DUARR🔥!!!!!</h2>" + selectedMessage;
+            
+            // Lanjut ke langkah 2
+            currentStep = 2;
+            btnLove.disabled = true;
+            btnGif.disabled = false;
+            
+        } else if (type === 'gif') {
+            // Logika untuk menampilkan GIF SLIDER
+            currentGifIndex = 0; 
+            
+            let gifHtml = '<div class="gif-slider">';
+            gifUrls.forEach((url, index) => {
+                const isActive = index === 0 ? 'active' : '';
+                gifHtml += `<img src="${url}" alt="GIF Lucu ${index + 1}" class="gif-image ${isActive}" id="gif-${index}">`;
+            });
+            gifHtml += '</div>';
+
+            // Tambahkan kontrol slider
+            gifHtml += `
+                <div class="slider-controls">
+                    <p>Geser ke kanan untuk lihat GIF lain:</p>
+                    <button onclick="changeGif(-1)" id="prevBtn" disabled>&#8249; Sebelumnya</button>
+                    <button onclick="changeGif(1)" id="nextBtn">&#8250; Selanjutnya</button>
+                </div>
+                <p>GiF ini adalah siklus emosional kamu dan di paling akhir itu aku-_-</p>
+            `;
+            
+            content = `<h2>lucu tak????</h2>${gifHtml}`;
+            
+            // Lanjut ke langkah 3
+            currentStep = 3;
+            btnGif.disabled = true;
+            btnCompliment.disabled = false;
+
+        } else if (type === 'compliment') {
+            const randomIndex = Math.floor(Math.random() * compliments.length);
+            const selectedMessage = compliments[randomIndex];
+            content = "<h2>untuk cewenya si mbul:</h2>" + selectedMessage;
+            
+            // Semua langkah selesai
+            currentStep = 4;
+            btnCompliment.disabled = true;
+        }
+
+        // Menampilkan pesan/GIF dengan DELAY 200ms
+        messageBox.style.opacity = 0;
+        setTimeout(() => {
+            messageBox.innerHTML = content;
+            messageBox.style.opacity = 1;
+            
+            if (type === 'gif') {
+                updateSliderButtons(); 
+            }
+        }, 200); 
+    }
+
+    // Fungsi untuk mengontrol slider GIF (Sama)
+    function changeGif(direction) {
+        const totalGifs = gifUrls.length;
+        const newIndex = currentGifIndex + direction;
+
+        if (newIndex >= 0 && newIndex < totalGifs) {
+            document.getElementById(`gif-${currentGifIndex}`).classList.remove('active');
+            
+            currentGifIndex = newIndex;
+            
+            document.getElementById(`gif-${currentGifIndex}`).classList.add('active');
+
+            updateSliderButtons();
+        }
+    }
+
+    // Fungsi bantu untuk mengupdate status tombol slider (Sama)
+    function updateSliderButtons() {
+        const totalGifs = gifUrls.length;
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        
+        if (prevBtn && nextBtn) {
+            prevBtn.disabled = currentGifIndex === 0;
+            nextBtn.disabled = currentGifIndex === totalGifs - 1;
+        }
+    }
+</script>
+
+</body>
+</html>
